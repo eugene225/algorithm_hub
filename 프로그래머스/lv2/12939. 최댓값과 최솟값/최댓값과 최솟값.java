@@ -1,28 +1,16 @@
-#include <string>
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
-//자바는 왜 취급 안해줘,,
-string Solution(string s) {
-    string answer = "";
-    
-    vector<int> result;
-    string tmp;
-    for(int i=0;i<s.length();i++){
-        if(s[i]!=' '){
-            tmp += s[i];
-        }else{
-            result.push_back(stoi(tmp));
-            tmp.clear();
+class Solution {
+    public String solution(String s) {
+        String answer = "";
+        
+        String[] tmp = s.split(" ");
+        int min, max, n;
+        min = max = Integer.parseInt(tmp[0]);
+        for(int i=0; i<tmp.length; i++) {
+            n = Integer.parseInt(tmp[i]);
+            if(min > n) min = n;
+            if(max < n) max = n;
         }
+        
+        return min+" "+max;
     }
-    result.push_back(stoi(tmp));
-    
-    sort(result.begin(), result.end());
-    
-    answer += to_string(result.front())+ " " + to_string(result.back());
-    
-    return answer;
 }
