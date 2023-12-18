@@ -1,54 +1,52 @@
-import java.io.*;
-import java.math.BigInteger;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
 
-    static int[][] all;
-    static int white;
-    static int blue;
-
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static int N;
+    static int white = 0, blue = 0;
+    static int[][] map;
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        map = new int[N][N];
+
         StringTokenizer st;
-        StringBuilder sb = new StringBuilder();
-
-        int N = Integer.parseInt(br.readLine());
-        all = new int[N][N];
-
-        for(int i=0;i<N;i++){
+        for(int i=0;i<N;i++) {
             st = new StringTokenizer(br.readLine());
-            for(int j=0;j<N;j++){
-                if(Integer.parseInt(st.nextToken())==1) all[i][j] = 1;
-                else all[i][j] = 0;
+            for(int j=0; j<N; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-        paper(0,0,N);
+
+        divide(0, 0, N);
         System.out.print(white+"\n"+blue);
     }
 
-    public static void paper(int i, int j, int size){
-        if(check(i,j,size)){
-            if(all[i][j] == 0){
+    public static void divide(int i, int j, int size) {
+        if(isColored(i, j, size)) {
+            if(map[i][j] == 0) {
                 white++;
-            }else{
+            }else {
                 blue++;
             }
             return;
         }
 
-        paper(i,j,size/2);
-        paper(i,j+size/2, size/2);
-        paper(i+size/2, j, size/2);
-        paper(i+size/2, j+size/2, size/2);
+        divide(i, j, size/2);
+        divide(i, j+size/2, size/2);
+        divide(i+size/2, j, size/2);
+        divide(i+size/2, j+size/2, size/2);
     }
 
-    public static boolean check(int i, int j, int size){
-        int first = all[i][j];
+    public static boolean isColored(int i, int j, int size) {
+        int start = map[i][j];
 
-        for(int m=i;m<i+size;m++){
-            for(int n=j;n<j+size;n++){
-                if(all[m][n] != first) return false;
+        for(int n=i; n<i+size; n++) {
+            for(int m=j; m<j+size; m++) {
+                if(map[n][m] != start) return false;
             }
         }
         return true;
