@@ -1,48 +1,39 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.StringTokenizer;
 
-public class Main {
-    static int N;
-    static int[][] tri;
-
-    static Integer[][] dp;
+public class Main
+{
+	private static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static int N;
+    private static int[][] dp;
+    private static int ans;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        dp = new int[N][N];
+
+        dp[0][0] = Integer.parseInt(br.readLine());
         StringTokenizer st;
-
-        N = Integer.parseInt(br.readLine());  // N줄의 삼각형
-        //System.out.println("N:"+N);
-
-        dp = new Integer[N][N];
-        tri = new int[N][N];
-
-        for(int i=0;i<N;i++){
+        ans = dp[0][0];
+        for (int i = 1; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            for(int j=0;j<=i;j++){
-                tri[i][j] = Integer.parseInt(st.nextToken());
-                //System.out.print(tri[i][j]+" ");
+            for (int j = 0; j < i+1; j++) {
+                dp[i][j] = Integer.parseInt(st.nextToken());
+                if (j == 0) {
+                    dp[i][j] += dp[i - 1][j];
+                } else if (j == i) {
+                    dp[i][j] += dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] += Math.max(dp[i - 1][j], dp[i - 1][j - 1]);
+                }
+                
+                ans = Math.max(ans, dp[i][j]);
             }
-            //System.out.println();
         }
 
-        for(int i=0;i<N;i++){
-            dp[N-1][i] = tri[N-1][i];
-        }
+        System.out.println(ans);
 
-        System.out.println(find(0, 0));
-    }
-
-    public static int find(int depth, int idx){
-        if(depth == N-1){
-            return dp[depth][idx];
-        }
-
-        if(dp[depth][idx] == null){
-            dp[depth][idx] = Math.max(find(depth+1, idx), find(depth+1, idx+1)) + tri[depth][idx];
-        }
-        return dp[depth][idx];
     }
 }
