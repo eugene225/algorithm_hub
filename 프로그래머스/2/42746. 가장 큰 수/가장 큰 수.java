@@ -1,23 +1,20 @@
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 class Solution {
     public String solution(int[] numbers) {
-        String[] numStrs = Arrays.stream(numbers)
-                                 .mapToObj(String::valueOf)
-                                 .toArray(String[]::new);
+        String answer = "";
         
-        Arrays.sort(numStrs, (a, b) -> (b + a).compareTo(a + b));
-        
-        StringBuilder answer = new StringBuilder();
-        for (String numStr : numStrs) {
-            answer.append(numStr);
+        String[] nums = new String[numbers.length];
+        for(int i=0; i<numbers.length; i++) {
+            nums[i] = String.valueOf(numbers[i]);
         }
         
-        if (answer.charAt(0) == '0') {
-            return "0";
-        }
+        Arrays.sort(nums, (a, b) -> (b+a).compareTo(a+b));
+        if(nums[0].equals("0")) return "0";
         
-        return answer.toString();
+        for(String num: nums) {
+            answer += num;
+        }
+        return answer;
     }
 }
