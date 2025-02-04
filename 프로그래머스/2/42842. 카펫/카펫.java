@@ -2,19 +2,22 @@ class Solution {
     public int[] solution(int brown, int yellow) {
         int[] answer = new int[2];
         
-        int flag = -1;
-        for(int i=3;; i++) {
-            for(int j=3;; j++) {
-                if(i<j) break;
-                if((i-2)*(j-2) == yellow && (i-2) + (j-2) == (brown-4)/2){
-                    answer[0] = i;
-                    answer[1] = j;
-                    flag = 1;
+        int map = brown + yellow;
+        
+        for(int i=3; i<=map; i++) {
+            int col = i;
+            int row = map/col;
+            
+            if(row < 3) continue;
+            
+            if(row >= col) {
+                if((row-2) * (col-2) == yellow) {
+                    answer = new int[]{row, col};
                     break;
                 }
             }
-            if(flag==1) break;
         }
+        
         return answer;
     }
 }
