@@ -56,13 +56,7 @@ public class Main {
                 if(!flag) break;
             } else {
                 d = (d + 3) % 4; // 반시계 방향 회전
-
-                int nx = now[0] + dx[d];
-                int ny = now[1] + dy[d];
-
-                if (0 <= nx && nx < N && 0 <= ny && ny < M && map[nx][ny] == 0) {
-                    moveFront();
-                }
+                moveFront();
             }
         }
 
@@ -87,7 +81,12 @@ public class Main {
     }
 
     private static void moveFront() {
-        now[0] = now[0] + dx[d];
-        now[1] = now[1] + dy[d];
+        int nx = now[0] + dx[d];
+        int ny = now[1] + dy[d];
+
+        if (0 <= nx && nx < N && 0 <= ny && ny < M && map[nx][ny] == 0) {
+            now[0] = now[0] + dx[d];
+            now[1] = now[1] + dy[d];
+        }
     }
 }
